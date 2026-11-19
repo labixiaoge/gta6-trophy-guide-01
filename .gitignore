@@ -2,6 +2,7 @@
 out/
 # Local dependencies, if any are ever installed for tooling.
 node_modules/
-# Editor and OS clutter.
+# Editor, OS and log clutter.
 .DS_Store
 *.swp
+*.log
