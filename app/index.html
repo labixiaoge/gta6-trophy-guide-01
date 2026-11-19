@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Trophy Guide — GTA VI Platinum Tracker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23d24e2a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div>
+    <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies</p>
+    <h1>Leonida Trophy Guide</h1>
+    <p class="subtitle">An offline guide and tracker for the platinum. Every name, description and grade is the official PlayStation list; every guide is written for this page from that list and says plainly where a place or step is not yet confirmed in the game.</p>
+  </div>
+  <div class="progress-box" id="progressBox" aria-label="Platinum progress">
+    <p class="big-count"><span id="earnedCount">0</span><span class="of"> / 55</span></p>
+    <p class="progress-label">trophies earned</p>
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBar"><span id="progressFill"></span></div>
+    <p class="grade-counts" id="gradeCounts"></p>
+    <p class="platinum-note" id="platinumNote">Platinum: Vice Got a Price! unlocks when the other 54 are earned.</p>
+  </div>
+</header>
+
+<nav class="views" aria-label="Views">
+  <button type="button" class="view-btn active" data-view="checklist" id="btnChecklist">Checklist</button>
+  <button type="button" class="view-btn" data-view="roadmap" id="btnRoadmap">Roadmap to Platinum</button>
+  <button type="button" class="view-btn" data-view="missables" id="btnMissables">Missables</button>
+</nav>
+
+<section class="controls" aria-label="Filters and settings">
+  <label class="search-label">Search <input id="search" type="search" placeholder="Name or description&hellip;" autocomplete="off"></label>
+  <label>Kind
+    <select id="kindFilter">
+      <option value="all">All kinds</option>
+      <option value="story">Story</option>
+      <option value="mission">Mission</option>
+      <option value="activity">Activity</option>
+      <option value="collectible">Collectible</option>
+      <option value="combat">Combat &amp; crime</option>
+      <option value="exploration">Exploration</option>
+      <option value="partner">Partner</option>
+      <option value="economy">Money &amp; property</option>
+    </select>
+  </label>
+  <label>Grade
+    <select id="gradeFilter">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label>Status
+    <select id="earnedFilter">
+      <option value="all">Earned &amp; unearned</option>
+      <option value="earned">Earned only</option>
+      <option value="unearned">Unearned only</option>
+    </select>
+  </label>
+  <label class="spoiler-label"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers until earned</label>
+  <button id="exportBtn" type="button">Export progress</button>
+  <label class="import-label">Import progress <input id="importInput" type="file" accept="application/json,.json"></label>
+  <button id="resetBtn" type="button">Reset all</button>
+</section>
+
+<main>
+  <section id="viewChecklist" class="view">
+    <div class="layout">
+      <div>
+        <p class="list-meta" id="listMeta"></p>
+        <ul class="trophy-list" id="trophyList"></ul>
+      </div>
+      <aside class="detail" id="detailPane" aria-label="Trophy guide detail">
+        <p class="detail-empty">Pick a trophy to read its full guide, sources and missable note.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="viewRoadmap" class="view" hidden>
+    <h2>Roadmap to the platinum</h2>
+    <p class="view-intro">Built from the official trophy descriptions alone, in the order the game asks for things: story first, then the stranger strands, then activities and collectibles, then crime and money, then the 100% cleanup. Each phase lists the trophies it covers and how many of them you have earned.</p>
+    <ol class="phases" id="roadmapPhases"></ol>
+  </section>
+
+  <section id="viewMissables" class="view" hidden>
+    <h2>Missable trophies</h2>
+    <p class="view-intro">No trophy in the official list is confirmed missable by its description alone — the game only released on 19 November 2026 and mission replay has not been confirmed in-game. The trophies below are the ones whose descriptions set a condition that can fail on an attempt (an undetected robbery, a back-to-back chain, a single use of a skill), so play them carefully and, where the game lets you, keep a save before you try. Story and chapter trophies are listed separately as unmissable on a replayable story, with the same warning until replay is confirmed.</p>
+    <div id="missablesList"></div>
+  </section>
+</main>
+
+<footer>
+  <h2>Sources</h2>
+  <p>Names, descriptions and grades: the official PlayStation 5 trophy list as published on Exophase (exophase.com — Grand Theft Auto VI PSN trophies). PSN progress targets (such as 42 Shooting Range challenges) as listed on PSNProfiles (psnprofiles.com — trophies 43531). Every guide on this page is written in our own words from those two sources; where a place or step is not pinned down by a source, the guide says so. This guide is unofficial, works fully offline, and uses no Rockstar Games logo or artwork.</p>
+  <p class="footer-note">Progress is saved only in this browser (localStorage). Export downloads a JSON file; import reads it back and only accepts names from the official 55.</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
