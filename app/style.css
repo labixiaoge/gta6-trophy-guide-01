@@ -1,4 +1,6 @@
-/* Leonida Trophy Guide: a light paper look, coral accent, serif display type. No images, no web fonts. */
+/* Leonida Trophy Guide — a light paper look, coral accent, serif display type.
+   No images, no web fonts: every file the app loads lives under app/. */
+
 :root {
   --paper: #f6f3ee;
   --card: #ffffff;
@@ -7,12 +9,17 @@
   --line: #ddd5c8;
   --accent: #d24e2a;
   --accent-soft: #fbe9e2;
+  --accent-ink: #8f2f14;
   --gold: #b98a1d;
   --silver: #6b7684;
   --bronze: #a06a3b;
   --platinum: #3f6d8e;
+  --radius: 14px;
+  --pad: 32px;
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   background: var(--paper);
@@ -21,11 +28,15 @@ body {
   font-size: 16px;
   line-height: 1.5;
 }
-h1, h2, h3, .big-count { font-family: "Iowan Old Style", Palatino, Georgia, serif; }
+
+h1, h2, h3, .big-count, .stat-num {
+  font-family: "Iowan Old Style", Palatino, Georgia, serif;
+}
 h1 { font-size: 40px; line-height: 1.05; margin: 4px 0 8px; }
 h2 { font-size: 26px; margin: 0 0 8px; }
 h3 { font-size: 19px; margin: 0 0 4px; }
 p { margin: 0 0 10px; }
+
 button, select, input { font: inherit; }
 button { cursor: pointer; }
 button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible {
@@ -33,18 +44,32 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
   outline-offset: 2px;
 }
 
+/* Masthead and platinum progress */
 .masthead {
   display: flex;
   gap: 32px;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 28px 32px 20px;
+  padding: 28px var(--pad) 20px;
   border-bottom: 3px solid var(--accent);
   background: var(--card);
 }
-.kicker { color: var(--accent); font-weight: bold; letter-spacing: 0.08em; text-transform: uppercase; font-size: 13px; margin-bottom: 2px; }
+.kicker {
+  color: var(--accent);
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
 .subtitle { color: var(--muted); max-width: 640px; }
-.progress-box { min-width: 280px; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.progress-box {
+  min-width: 280px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
 .big-count { font-size: 44px; line-height: 1; margin: 0; }
 .big-count .of { font-size: 22px; color: var(--muted); }
 .progress-label { color: var(--muted); margin: 2px 0 10px; }
@@ -53,7 +78,8 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .grade-counts { margin: 10px 0 4px; font-size: 14px; }
 .platinum-note { font-size: 13px; color: var(--muted); margin: 0; }
 
-.views { display: flex; gap: 8px; padding: 14px 32px 0; }
+/* View navigation */
+.views { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px var(--pad) 0; }
 .view-btn {
   border: 1px solid var(--line);
   background: var(--card);
@@ -63,15 +89,17 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 }
 .view-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+/* Filters, sort and export controls */
 .controls {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-  padding: 14px 32px;
+  padding: 14px var(--pad);
 }
 .controls label { font-size: 14px; color: var(--muted); }
-.controls select, .controls input[type="search"] {
+.controls select,
+.controls input[type="search"] {
   padding: 6px 8px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -79,7 +107,8 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
   color: var(--ink);
 }
 .controls input[type="search"] { width: 220px; }
-.controls button, .import-label {
+.controls button,
+.import-label {
   border: 1px solid var(--accent);
   background: var(--card);
   color: var(--accent);
@@ -91,14 +120,23 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .import-label input { display: none; }
 .spoiler-label { display: flex; gap: 6px; align-items: center; }
 
-main { padding: 0 32px 24px; }
-.layout { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
+main { padding: 0 var(--pad) 24px; }
+.view-intro { max-width: 760px; color: var(--muted); }
+.empty-note { color: var(--muted); padding: 24px 0; }
+
+/* Checklist layout: list on the left, detail pane on the right */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 24px;
+  align-items: start;
+}
 .list-meta { color: var(--muted); font-size: 14px; }
 .trophy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .trophy-card {
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius);
   padding: 14px 16px;
   display: grid;
   grid-template-columns: 28px 1fr auto;
@@ -108,11 +146,20 @@ main { padding: 0 32px 24px; }
 }
 .trophy-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
 .trophy-card.earned { background: #fdf8ef; }
-.trophy-card input[type="checkbox"] { width: 20px; height: 20px; margin-top: 4px; accent-color: var(--accent); }
+.trophy-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  accent-color: var(--accent);
+}
 .trophy-name { font-weight: bold; font-size: 17px; }
 .trophy-desc { color: var(--muted); font-size: 14px; }
 .trophy-guide-short { font-size: 14px; margin-top: 6px; }
-.medal {
+.difficulty { color: var(--accent); letter-spacing: 1px; white-space: nowrap; }
+.hours { font-size: 13px; color: var(--muted); white-space: nowrap; }
+
+/* Grade pills and tags */
+.grade {
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
@@ -123,10 +170,10 @@ main { padding: 0 32px 24px; }
   color: #fff;
   white-space: nowrap;
 }
-.medal.platinum { background: var(--platinum); }
-.medal.gold { background: var(--gold); }
-.medal.silver { background: var(--silver); }
-.medal.bronze { background: var(--bronze); }
+.grade.platinum { background: var(--platinum); }
+.grade.gold { background: var(--gold); }
+.grade.silver { background: var(--silver); }
+.grade.bronze { background: var(--bronze); }
 .tag {
   display: inline-block;
   font-size: 12px;
@@ -140,26 +187,57 @@ main { padding: 0 32px 24px; }
 .tag.hidden-flag { background: var(--accent-soft); border-color: var(--accent-soft); color: var(--accent); }
 .target { font-size: 13px; color: var(--muted); }
 
+/* Detail pane */
 .detail {
   position: sticky;
   top: 16px;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius);
   padding: 18px;
 }
 .detail-empty { color: var(--muted); }
-.detail .sources { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 12px; }
-.detail .missable-note { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 14px; }
-.detail .guide-text { white-space: pre-line; }
 .detail h2 { font-size: 24px; }
 .detail .official { color: var(--muted); font-style: italic; }
+.detail .guide-text { white-space: pre-line; }
+.detail .sources {
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 12px;
+}
+.detail .missable-note {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 10px 12px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+}
+.detail .steps { margin: 8px 0 10px; padding-left: 20px; }
+.detail .steps li { margin-bottom: 4px; }
+.detail .tip {
+  background: #f2f6ec;
+  border-left: 4px solid #5b7d3a;
+  padding: 10px 12px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+}
+.detail .phase-line { font-size: 14px; color: var(--muted); }
 
-.phases { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: phase; }
+/* Roadmap phases */
+.phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  counter-reset: phase;
+}
 .phase {
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius);
   padding: 18px 20px;
   counter-increment: phase;
 }
@@ -167,17 +245,54 @@ main { padding: 0 32px 24px; }
 .phase ul { margin: 8px 0 0; padding-left: 20px; }
 .phase li { margin-bottom: 4px; }
 .phase .phase-count { color: var(--muted); font-size: 14px; }
-.view-intro { max-width: 760px; color: var(--muted); }
+.phase-group { margin-bottom: 28px; }
+.phase-group h3 { border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+.phase-group .phase-count { color: var(--muted); font-size: 14px; font-weight: normal; }
 
+/* Missables */
 .missable-group { margin-bottom: 22px; }
 .missable-group h3 { border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
 .missable-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.missable-list li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.missable-list li {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
 
-footer { border-top: 1px solid var(--line); padding: 20px 32px 32px; background: var(--card); }
+/* Stats dashboard */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.stat-num { font-size: 30px; line-height: 1.1; margin: 0 0 4px; color: var(--accent-ink); }
+.stat-card p:last-child { margin: 0; color: var(--muted); font-size: 14px; }
+.stat-table { border-collapse: collapse; margin-bottom: 18px; }
+.stat-table td { padding: 5px 18px 5px 0; font-size: 15px; }
+.stat-table td:first-child { font-weight: bold; }
+.mini-bar {
+  display: inline-block;
+  width: 140px;
+  height: 10px;
+  background: #e4ded2;
+  border-radius: 5px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.mini-bar span { display: block; height: 100%; background: var(--accent); }
+
+footer { border-top: 1px solid var(--line); padding: 20px var(--pad) 32px; background: var(--card); }
 footer p { max-width: 860px; }
 .footer-note { color: var(--muted); font-size: 14px; }
-.empty-note { color: var(--muted); padding: 24px 0; }
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .detail { position: static; }
