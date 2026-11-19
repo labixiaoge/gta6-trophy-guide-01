@@ -28,6 +28,10 @@ h3 { font-size: 19px; margin: 0 0 4px; }
 p { margin: 0 0 10px; }
 button, select, input { font: inherit; }
 button { cursor: pointer; }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
 
 .masthead {
   display: flex;
@@ -178,4 +182,9 @@ footer p { max-width: 860px; }
   .layout { grid-template-columns: 1fr; }
   .detail { position: static; }
   .masthead { flex-direction: column; }
+}
+@media print {
+  .controls, .views, .detail { display: none; }
+  body { background: #fff; }
+  .masthead { border-bottom-width: 2px; }
 }

@@ -1,7 +1,8 @@
 // Leonida Trophy Guide: checklist, filters, spoiler setting, roadmap and missables.
 // All trophy data comes from data/trophies.json, fetched from this app's own files.
-// Progress lives in localStorage under KEY; export/import move it as JSON.
-const KEY = 'gta6-trophy-guide-progress-v1';
+// Progress lives in localStorage; export/import move it as JSON.
+// Views can be deep-linked: #roadmap and #missables open those views on load.
+const PROGRESS_KEY = 'gta6-trophy-guide-progress-v1';
 const SPOILER_KEY = 'gta6-trophy-guide-spoilers-v1';
 const DATA_URL = 'data/trophies.json';
 
@@ -24,14 +25,14 @@ const state = {
 
 function loadEarned() {
   try {
-    const raw = JSON.parse(localStorage.getItem(KEY) || '[]');
+    const raw = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]');
     if (Array.isArray(raw)) return new Set(raw.filter((n) => typeof n === 'string'));
   } catch { /* a corrupt save starts empty */ }
   return new Set();
 }
 
 function saveEarned() {
-  localStorage.setItem(KEY, JSON.stringify([...state.earned]));
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify([...state.earned]));
 }
 
 function loadSpoilers() {
@@ -43,30 +44,30 @@ function saveSpoilers() {
   localStorage.setItem(SPOILER_KEY, String(state.spoilers));
 }
 
-function isStory(t) {
+function isStoryKind(t) {
   return t.kind === 'story' || t.kind === 'mission';
 }
 
-function isHiddenFromSpoilers(t) {
-  return state.spoilers && isStory(t) && !state.earned.has(t.name);
+function isHiddenBySpoilers(t) {
+  return state.spoilers && isStoryKind(t) && !state.earned.has(t.name);
 }
 
-function displayName(t) {
-  return isHiddenFromSpoilers(t) ? 'Hidden — earn it to reveal' : t.name;
+function shownName(t) {
+  return isHiddenBySpoilers(t) ? 'Hidden — earn it to reveal' : t.name;
 }
 
-function displayDescription(t) {
-  return isHiddenFromSpoilers(t) ? 'Hidden — earn it to reveal' : t.description;
+function shownDescription(t) {
+  return isHiddenBySpoilers(t) ? 'Hidden — earn it to reveal' : t.description;
 }
 
-function medal(t) {
+function medalEl(t) {
   const span = document.createElement('span');
   span.className = 'medal ' + t.grade;
   span.textContent = t.grade;
   return span;
 }
 
-function tag(text, cls) {
+function tagEl(text, cls) {
   const span = document.createElement('span');
   span.className = 'tag' + (cls ? ' ' + cls : '');
   span.textContent = text;
@@ -81,9 +82,9 @@ function renderProgress() {
   bar.setAttribute('aria-valuenow', String(n));
   document.getElementById('progressFill').style.width = total ? (n / total * 100) + '%' : '0';
   const counts = {};
-  for (const t of state.trophies) counts[t.grade] = (counts[t.grade] || 0) + 1;
   const earnedByGrade = {};
   for (const t of state.trophies) {
+    counts[t.grade] = (counts[t.grade] || 0) + 1;
     if (state.earned.has(t.name)) earnedByGrade[t.grade] = (earnedByGrade[t.grade] || 0) + 1;
   }
   const order = ['platinum', 'gold', 'silver', 'bronze'];
@@ -97,7 +98,7 @@ function renderProgress() {
     : 'Platinum: Vice Got a Price! unlocks when the other 54 are earned.';
 }
 
-function filteredTrophies() {
+function visibleTrophies() {
   const q = searchEl.value.trim().toLowerCase();
   return state.trophies.filter((t) => {
     if (kindEl.value !== 'all' && t.kind !== kindEl.value) return false;
@@ -110,7 +111,7 @@ function filteredTrophies() {
 }
 
 function renderList() {
-  const shown = filteredTrophies();
+  const shown = visibleTrophies();
   listEl.replaceChildren();
   metaEl.textContent = 'Showing ' + shown.length + ' of ' + state.trophies.length + ' trophies'
     + (state.spoilers ? ' · story spoilers hidden until earned' : ' · spoilers shown');
@@ -143,14 +144,14 @@ function renderList() {
     const body = document.createElement('div');
     const name = document.createElement('p');
     name.className = 'trophy-name';
-    name.textContent = displayName(t);
+    name.textContent = shownName(t);
     const desc = document.createElement('p');
     desc.className = 'trophy-desc';
-    desc.textContent = displayDescription(t);
+    desc.textContent = shownDescription(t);
     const tags = document.createElement('p');
-    tags.append(tag(t.kind));
-    if (t.hidden) tags.append(tag('Hidden on PSN', 'hidden-flag'));
-    if (t.missable) tags.append(tag('Missable', 'missable'));
+    tags.append(tagEl(t.kind));
+    if (t.hidden) tags.append(tagEl('Hidden on PSN', 'hidden-flag'));
+    if (t.missable) tags.append(tagEl('Missable', 'missable'));
     if (t.target) {
       const target = document.createElement('span');
       target.className = 'target';
@@ -158,14 +159,14 @@ function renderList() {
       tags.append(target);
     }
     body.append(name, desc, tags);
-    if (!isHiddenFromSpoilers(t)) {
+    if (!isHiddenBySpoilers(t)) {
       const short = document.createElement('p');
       short.className = 'trophy-guide-short';
       short.textContent = t.guide.split('\n')[0];
       body.append(short);
     }
     const right = document.createElement('div');
-    right.append(medal(t));
+    right.append(medalEl(t));
     li.append(box, body, right);
     li.addEventListener('click', () => {
       state.selected = t.name;
@@ -189,17 +190,17 @@ function renderDetail() {
   }
   detailEl.innerHTML = '';
   const h = document.createElement('h2');
-  h.textContent = displayName(t);
+  h.textContent = shownName(t);
   const meta = document.createElement('p');
-  meta.append(medal(t), document.createTextNode(' '), tag(t.kind));
-  if (t.missable) meta.append(tag('Missable', 'missable'));
-  if (t.hidden) meta.append(tag('Hidden on PSN', 'hidden-flag'));
+  meta.append(medalEl(t), document.createTextNode(' '), tagEl(t.kind));
+  if (t.missable) meta.append(tagEl('Missable', 'missable'));
+  if (t.hidden) meta.append(tagEl('Hidden on PSN', 'hidden-flag'));
   const official = document.createElement('p');
   official.className = 'official';
-  official.textContent = 'Official description: ' + displayDescription(t);
+  official.textContent = 'Official description: ' + shownDescription(t);
   const guide = document.createElement('p');
   guide.className = 'guide-text';
-  guide.textContent = isHiddenFromSpoilers(t) ? 'Hidden — earn it to reveal' : t.guide;
+  guide.textContent = isHiddenBySpoilers(t) ? 'Hidden — earn it to reveal' : t.guide;
   detailEl.append(h, meta, official, guide);
   if (t.target) {
     const target = document.createElement('p');
@@ -249,7 +250,7 @@ function renderRoadmap() {
       if (!t) continue;
       const item = document.createElement('li');
       item.textContent = (state.earned.has(t.name) ? '✓ ' : '○ ')
-        + displayName(t) + ' — ' + t.grade;
+        + shownName(t) + ' — ' + t.grade;
       ul.append(item);
     }
     li.append(h, count, text, ul);
@@ -270,10 +271,10 @@ function renderMissables() {
   for (const t of flagged) {
     const li = document.createElement('li');
     const name = document.createElement('strong');
-    name.textContent = displayName(t) + ' ';
+    name.textContent = shownName(t) + ' ';
     const note = document.createElement('span');
     note.textContent = '— ' + (t.missable_note || '');
-    li.append(name, medal(t), document.createElement('br'), note);
+    li.append(name, medalEl(t), document.createElement('br'), note);
     ul.append(li);
   }
   group.append(h, ul);
@@ -288,7 +289,10 @@ function renderMissables() {
   host.append(safe);
 }
 
-function showView(view) {
+const VIEWS = ['checklist', 'roadmap', 'missables'];
+
+function showView(view, updateHash) {
+  if (!VIEWS.includes(view)) view = 'checklist';
   state.view = view;
   for (const btn of document.querySelectorAll('.view-btn')) {
     btn.classList.toggle('active', btn.dataset.view === view);
@@ -296,6 +300,15 @@ function showView(view) {
   document.getElementById('viewChecklist').hidden = view !== 'checklist';
   document.getElementById('viewRoadmap').hidden = view !== 'roadmap';
   document.getElementById('viewMissables').hidden = view !== 'missables';
+  if (updateHash) {
+    const hash = view === 'checklist' ? '' : '#' + view;
+    history.replaceState(null, '', hash || location.pathname);
+  }
+}
+
+function viewFromHash() {
+  const hash = location.hash.replace('#', '');
+  return VIEWS.includes(hash) ? hash : 'checklist';
 }
 
 function exportProgress() {
@@ -347,8 +360,9 @@ async function boot() {
   state.spoilers = loadSpoilers();
   spoilerEl.checked = state.spoilers;
   for (const btn of document.querySelectorAll('.view-btn')) {
-    btn.addEventListener('click', () => showView(btn.dataset.view));
+    btn.addEventListener('click', () => showView(btn.dataset.view, true));
   }
+  window.addEventListener('hashchange', () => showView(viewFromHash(), false));
   searchEl.addEventListener('input', renderList);
   kindEl.addEventListener('change', renderList);
   gradeEl.addEventListener('change', renderList);
@@ -377,11 +391,13 @@ async function boot() {
     renderRoadmap();
     renderMissables();
   });
+  showView(viewFromHash(), false);
   renderProgress();
   renderList();
   renderDetail();
   renderRoadmap();
   renderMissables();
+  window.__shotReady = true;
 }
 
 boot();
