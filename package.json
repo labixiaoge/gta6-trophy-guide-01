@@ -1,0 +1,1 @@
+{"description":"An offline guide and tracker for the 55 PlayStation 5 trophies of Grand Theft Auto VI.","engines":{"node":">=22"},"license":"MIT","name":"gta6-trophy-guide-01","private":true,"scripts":{"build":"mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts","serve":"node serve.ts"},"type":"module","version":"1.0.0"}
