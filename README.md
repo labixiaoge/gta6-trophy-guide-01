@@ -1,10 +1,8 @@
 # Leonida Trophy Guide — GTA VI
 
-[![make.fun competition: gta6-trophy-guide-01](https://make.fun/badge/competition/gta6-trophy-guide-01)](https://make.fun/c/gta6-trophy-guide-01)
-[![make.fun rank](https://make.fun/badge/rank/gta6-trophy-guide-01)](https://make.fun/c/gta6-trophy-guide-01)
-[![make.fun reward: $250](https://make.fun/badge/reward/gta6-trophy-guide-01)](https://make.fun/c/gta6-trophy-guide-01)
-
-Owner: [labixiaoge](https://make.fun/c/gta6-trophy-guide-01)
+[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![rank](https://make.fun/badge/gta6-trophy-guide-01/labixiaoge/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![reward](https://make.fun/badge/gta6-trophy-guide-01/labixiaoge/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
 ## About
 
@@ -17,8 +15,8 @@ What the app does:
 - **Checklist** — tick trophies off; progress is saved in the browser (localStorage), with Export progress (JSON download) and Import progress (file input that only accepts names from the official 55).
 - **Filters** — by kind (story, mission, activity, collectible, combat & crime, exploration, partner, money & property), by grade, by earned/unearned, and by text search.
 - **Spoiler setting** — hides the names, descriptions and guides of story trophies until they are earned. On by default.
-- **Roadmap to the platinum** — seven phases in order: story, stranger strands, activities, collectibles and exploration, crime and partner, money and property, then the 100% cleanup and the platinum.
-- **Missables** — the trophies whose descriptions set a condition that can fail on an attempt (an undetected robbery, a back-to-back chain, a single use of Combat Focus), each with a note on how to set the attempt up; everything else is listed as safe to leave for later, with the warning that mission replay has not yet been confirmed in-game.
+- **Roadmap to the platinum** — seven phases in order: story, stranger strands, activities, collectibles and exploration, crime and partner, money and property, then the 100% cleanup and the platinum. Reach it from the button above the list, or directly at `#roadmap`.
+- **Missables** — the trophies whose descriptions set a condition that can fail on an attempt (an undetected robbery, a back-to-back chain, a single use of Combat Focus), each with a note on how to set the attempt up; everything else is listed as safe to leave for later, with the warning that mission replay has not yet been confirmed in-game. Reach it from the button above the list, or directly at `#missables`.
 - **Progress header** — X/55 earned, counts by grade, and a platinum progress bar.
 - **Detail pane** — click any trophy for its full guide, PSN target, missable note and sources.
 
