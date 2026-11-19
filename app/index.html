@@ -12,7 +12,7 @@
   <div>
     <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies</p>
     <h1>Leonida Trophy Guide</h1>
-    <p class="subtitle">An offline guide and tracker for the platinum. Every name, description and grade is the official PlayStation list; every guide is written for this page from that list and says plainly where a place or step is not yet confirmed in the game.</p>
+    <p class="subtitle">An offline guide and tracker for the platinum. Every name, description and grade is the official PlayStation list; every guide is written for this page from that list and says plainly where a place or step is not yet confirmed in the game. Each trophy carries a difficulty rating, an estimated time, steps to follow and a tip — plus the phase of the roadmap it belongs to.</p>
   </div>
   <div class="progress-box" id="progressBox" aria-label="Platinum progress">
     <p class="big-count"><span id="earnedCount">0</span><span class="of"> / 55</span></p>
@@ -24,13 +24,15 @@
 </header>
 
 <nav class="views" aria-label="Views">
-  <button type="button" class="view-btn active" data-view="checklist" id="btnChecklist">Checklist</button>
+  <button type="button" class="view-btn active" data-view="list" id="btnList">Checklist</button>
+  <button type="button" class="view-btn" data-view="phases" id="btnPhases">By phase</button>
   <button type="button" class="view-btn" data-view="roadmap" id="btnRoadmap">Roadmap to Platinum</button>
   <button type="button" class="view-btn" data-view="missables" id="btnMissables">Missables</button>
+  <button type="button" class="view-btn" data-view="stats" id="btnStats">My stats</button>
 </nav>
 
 <section class="controls" aria-label="Filters and settings">
-  <label class="search-label">Search <input id="search" type="search" placeholder="Name or description&hellip;" autocomplete="off"></label>
+  <label class="search-label">Search <input id="search" type="search" placeholder="Name, guide, step&hellip;" autocomplete="off"></label>
   <label>Kind
     <select id="kindFilter">
       <option value="all">All kinds</option>
@@ -60,28 +62,45 @@
       <option value="unearned">Unearned only</option>
     </select>
   </label>
+  <label>Sort by
+    <select id="sortSelect">
+      <option value="order">List order</option>
+      <option value="difficulty">Easiest first</option>
+      <option value="hours">Quickest first</option>
+      <option value="name">Name A–Z</option>
+    </select>
+  </label>
+  <label class="spoiler-label"><input id="missableFilter" type="checkbox"> Missable only</label>
   <label class="spoiler-label"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers until earned</label>
-  <button id="exportBtn" type="button">Export progress</button>
+  <button id="exportBtn" type="button">Export progress (JSON)</button>
+  <button id="exportTextBtn" type="button">Export checklist (text)</button>
+  <button id="copyBtn" type="button">Copy summary</button>
   <label class="import-label">Import progress <input id="importInput" type="file" accept="application/json,.json"></label>
   <button id="resetBtn" type="button">Reset all</button>
 </section>
 
 <main>
-  <section id="viewChecklist" class="view">
+  <section id="viewList" class="view">
     <div class="layout">
       <div>
         <p class="list-meta" id="listMeta"></p>
         <ul class="trophy-list" id="trophyList"></ul>
       </div>
       <aside class="detail" id="detailPane" aria-label="Trophy guide detail">
-        <p class="detail-empty">Pick a trophy to read its full guide, sources and missable note.</p>
+        <p class="detail-empty">Pick a trophy to read its full guide, steps, tip and sources.</p>
       </aside>
     </div>
   </section>
 
+  <section id="viewPhases" class="view" hidden>
+    <h2>Trophies by roadmap phase</h2>
+    <p class="view-intro">The same 55 trophies, grouped by the phase of the roadmap they belong to — so the order to earn them in is visible at a glance. Filters above still apply; sort by difficulty or time to pick the next trophy inside a phase.</p>
+    <div id="phaseGroups"></div>
+  </section>
+
   <section id="viewRoadmap" class="view" hidden>
     <h2>Roadmap to the platinum</h2>
-    <p class="view-intro">Built from the official trophy descriptions alone, in the order the game asks for things: story first, then the stranger strands, then activities and collectibles, then crime and money, then the 100% cleanup. Each phase lists the trophies it covers and how many of them you have earned.</p>
+    <p class="view-intro">Built from the official trophy descriptions alone, in the order the game asks for things: story first, then the stranger strands, then activities and collectibles, then crime and money, then the 100% cleanup. Each phase lists the trophies it covers, how many of them you have earned, and roughly how long it takes.</p>
     <ol class="phases" id="roadmapPhases"></ol>
   </section>
 
@@ -90,12 +109,18 @@
     <p class="view-intro">No trophy in the official list is confirmed missable by its description alone — the game only released on 19 November 2026 and mission replay has not been confirmed in-game. The trophies below are the ones whose descriptions set a condition that can fail on an attempt (an undetected robbery, a back-to-back chain, a single use of a skill), so play them carefully and, where the game lets you, keep a save before you try. Story and chapter trophies are listed separately as unmissable on a replayable story, with the same warning until replay is confirmed.</p>
     <div id="missablesList"></div>
   </section>
+
+  <section id="viewStats" class="view" hidden>
+    <h2>My stats</h2>
+    <p class="view-intro">Where the platinum hunt stands: what is earned, what is left, and roughly how long the rest should take. Hours are rough estimates from the trophy counts — a grind done alongside other trophies costs less than the sum suggests.</p>
+    <div id="statsBody"></div>
+  </section>
 </main>
 
 <footer>
   <h2>Sources</h2>
-  <p>Names, descriptions and grades: the official PlayStation 5 trophy list as published on Exophase (exophase.com — Grand Theft Auto VI PSN trophies). PSN progress targets (such as 42 Shooting Range challenges) as listed on PSNProfiles (psnprofiles.com — trophies 43531). Every guide on this page is written in our own words from those two sources; where a place or step is not pinned down by a source, the guide says so. This guide is unofficial, works fully offline, and uses no Rockstar Games logo or artwork.</p>
-  <p class="footer-note">Progress is saved only in this browser (localStorage). Export downloads a JSON file; import reads it back and only accepts names from the official 55. Views can be linked directly: #roadmap and #missables open those views.</p>
+  <p>Names, descriptions and grades: the official PlayStation 5 trophy list as published on Exophase (exophase.com — Grand Theft Auto VI PSN trophies). PSN progress targets (such as 42 Shooting Range challenges) as listed on PSNProfiles (psnprofiles.com — trophies 43531). Every guide on this page is written in our own words from those two sources; where a place or step is not pinned down by a source, the guide says so. Difficulty ratings and time estimates are the author's own judgement, not official figures. This guide is unofficial, works fully offline, and uses no Rockstar Games logo or artwork.</p>
+  <p class="footer-note">Progress is saved only in this browser (localStorage). Export downloads a JSON file or a plain-text checklist; import reads the JSON back and only accepts ids from the official 55. Views can be linked directly: #roadmap, #missables, #stats and #phase-1 to #phase-7 open those views, and #&lt;id&gt; opens one trophy.</p>
 </footer>
 <script type="module" src="app.js"></script>
 </body>
