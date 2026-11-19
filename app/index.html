@@ -12,7 +12,8 @@
   <div>
     <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies</p>
     <h1>Leonida Trophy Guide</h1>
-    <p class="subtitle">An offline guide and tracker for the platinum. Every name, description and grade is the official PlayStation list; every guide is written for this page from that list and says plainly where a place or step is not yet confirmed in the game. Each trophy carries a difficulty rating, an estimated time, steps to follow and a tip — plus the phase of the roadmap it belongs to.</p>
+    <p class="subtitle">A guide and tracker for the platinum that works fully offline. Names, descriptions and grades come from the official PlayStation list; each guide is written for this page from that list, and it says plainly where a place or step is not yet confirmed in the game. Every trophy carries a difficulty rating, an estimated time, what to bring, steps to follow and a tip — plus the roadmap phase it belongs to. Not sure what to chase next? The Next up box picks the easiest trophy left, and Surprise me picks one at random.</p>
+    <p class="howto">How to use it: tick trophies as you earn them, filter by kind or grade, open any trophy for its full guide, and work through the roadmap one phase at a time. Your progress stays in this browser.</p>
   </div>
   <div class="progress-box" id="progressBox" aria-label="Platinum progress">
     <p class="big-count"><span id="earnedCount">0</span><span class="of"> / 55</span></p>
@@ -81,6 +82,12 @@
 
 <main>
   <section id="viewList" class="view">
+    <div class="next-up" id="nextUpBox">
+      <p class="next-up-label">Next up — the easiest trophy you have not earned yet</p>
+      <p class="next-up-name" id="nextUpText"></p>
+      <button id="nextUpOpen" type="button">Read its guide</button>
+      <button id="surpriseBtn" type="button">Surprise me</button>
+    </div>
     <div class="layout">
       <div>
         <p class="list-meta" id="listMeta"></p>
@@ -94,7 +101,7 @@
 
   <section id="viewPhases" class="view" hidden>
     <h2>Trophies by roadmap phase</h2>
-    <p class="view-intro">The same 55 trophies, grouped by the phase of the roadmap they belong to — so the order to earn them in is visible at a glance. Filters above still apply; sort by difficulty or time to pick the next trophy inside a phase.</p>
+    <p class="view-intro">The same 55 trophies, grouped by the phase of the roadmap they belong to, so the order to earn them in is visible at a glance. The filters above still apply; sort by difficulty or time to pick the next trophy inside a phase. Each phase has a button to tick all its trophies at once. Press <kbd>/</kbd> to jump to search, <kbd>n</kbd> to open the next-up guide.</p>
     <div id="phaseGroups"></div>
   </section>
 
@@ -120,7 +127,7 @@
 <footer>
   <h2>Sources</h2>
   <p>Names, descriptions and grades: the official PlayStation 5 trophy list as published on Exophase (exophase.com — Grand Theft Auto VI PSN trophies). PSN progress targets (such as 42 Shooting Range challenges) as listed on PSNProfiles (psnprofiles.com — trophies 43531). Every guide on this page is written in our own words from those two sources; where a place or step is not pinned down by a source, the guide says so. Difficulty ratings and time estimates are the author's own judgement, not official figures. This guide is unofficial, works fully offline, and uses no Rockstar Games logo or artwork.</p>
-  <p class="footer-note">Progress is saved only in this browser (localStorage). Export downloads a JSON file or a plain-text checklist; import reads the JSON back and only accepts ids from the official 55. Views can be linked directly: #roadmap, #missables, #stats and #phase-1 to #phase-7 open those views, and #&lt;id&gt; opens one trophy.</p>
+  <p class="footer-note">Progress is saved only in this browser (localStorage). Export downloads a JSON file or a plain-text checklist; import reads the JSON back and only accepts ids from the official 55. Keyboard: <kbd>/</kbd> focuses search, <kbd>n</kbd> opens the next-up guide. Views can be linked directly: #roadmap, #missables, #stats and #phase-1 to #phase-7 open those views, and #&lt;id&gt; opens one trophy.</p>
 </footer>
 <script type="module" src="app.js"></script>
 </body>
